@@ -1,0 +1,71 @@
+{% extends("::layout/layout.html.twig") %}
+
+{% block body %}
+    <header class="intro-header" style="background-image: url('{{ asset('img/post-bg.jpg') }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ post.name }}</h1>
+                        <span class="meta">
+                            Posted by <a href="{{ path('author_show', {id: post.user.id}) }}">{{ post.user.username }}</a> on
+                            {{ post.createdAt|date("m/d/Y") }} in <a href="{{ path('category_show', {id: post.category.id}) }}">{{ post.category.name }}</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <h2 class="section-heading">Sous-titres</h2>
+                    <p>{{ post.content }}</p>
+                </div>
+            </div>
+        </div>
+    </article>
+    <hr>
+
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 0 %}s{% endif %}</h3>
+                    <div class="row">
+                        {% for comment in post.comments  %}
+                            <div class="col-md-3"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                            <div class="col-md-9">
+                                <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ comment.username }}</span> le {{ comment.createdAt|date("d/m/Y") }}</p>
+                                <p>{{ comment.content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <h3>Vos Commentaires</h3>
+                    <form class="form-horizontal" style="margin-top: 50px;">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="email" style="text-align: left;">Commentaire: </label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="email" style="text-align: left;">Email: </label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button type="submit" class="btn btn-default">Commentez</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </article>
+{% endblock %}
