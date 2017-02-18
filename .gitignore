@@ -5,4 +5,3 @@
 /web/bundles/
 app/bootstrap.php.cache
 app/config/parameters.yml
-/src/LouvreBundle/Billet
