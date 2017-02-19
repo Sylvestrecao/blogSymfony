@@ -32,7 +32,7 @@
                 <div class="form-group">
                     {{ form_label(form.content, "Contenu") }}
                     {{ form_errors(form.content) }}
-                    {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': '5'}}) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control tinymce', 'rows': '5'}}) }}
                 </div>
             </div>
             <div class="form-group">
@@ -47,4 +47,7 @@
     </div>
 
 
+{% endblock %}
+{% block script %}
+    {{ tinymce_init() }}
 {% endblock %}

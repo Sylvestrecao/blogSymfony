@@ -4,9 +4,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                {% if admin is defined %}
-                    {{ admin }}
-                {% endif %}
                 {% for post in posts %}
                 <div class="post-preview">
                     <a href="{{ path('post_show', {id: post.id}) }}">
@@ -21,7 +18,7 @@
                 <hr>
                 {% endfor %}
                 <!-- Pager -->
-            
+
                 <div class="pager">
                     {{ knp_pagination_render(posts) }}
                 </div>
@@ -29,7 +26,5 @@
         </div>
 
     </div>
-
     <hr>
-
 {% endblock %}

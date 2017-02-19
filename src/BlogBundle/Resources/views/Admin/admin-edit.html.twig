@@ -4,8 +4,8 @@
     <div class="container">
         <a href="{{ path('admin_show') }}" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Retour à la liste d'article</a>
         <h1>Espace d'administration</h1>
-        {{ form_start(form) }}
         <div class="row">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
             {{ form_errors(form) }}
             <div class="col-md-6">
                 <div class="form-group">
@@ -32,7 +32,7 @@
                 <div class="form-group">
                     {{ form_label(form.content, "Contenu") }}
                     {{ form_errors(form.content) }}
-                    {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': '5'}}) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control tinymce', 'data-theme': 'bbcode', 'rows': '5'}}) }}
                 </div>
             </div>
             <div class="form-group">
@@ -46,5 +46,7 @@
 
     </div>
 
-
+{% endblock %}
+{% block script %}
+    {{ tinymce_init() }}
 {% endblock %}
