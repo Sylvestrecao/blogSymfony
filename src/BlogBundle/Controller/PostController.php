@@ -27,15 +27,22 @@ class PostController extends Controller
      * @Route("/", name="post_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $query = $em->getRepository('BlogBundle:Post')->getPosts();
 
-        $posts = $em->getRepository('BlogBundle:Post')->getAllPosts();
+
+        $posts = $this->get('knp_paginator')->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            3
+        );
 
         return $this->render('BlogBundle:Default:index.html.twig', array(
             'posts' => $posts,
         ));
+
     }
 
 

@@ -40,4 +40,11 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getResult()
             ;
     }
+
+    public function getPosts()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ;
+    }
 }
