@@ -27,7 +27,7 @@
                         <td>{{ post.id }}</td>
                         <td>{{ post.name }}</td>
                         <td>{{ post.category.name }}</td>
-                        <td>{{ post.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ post.getCreatedAt()|date('d/m/Y H:i') }}</td>
                         <td>
                             <div class="col-sm-5"><a href="{{ path('admin_post_edit', {id: post.id}) }}" class="btn btn-info">Éditer</a></div>
                             <div class="col-sm-5">

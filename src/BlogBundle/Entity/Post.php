@@ -144,14 +144,6 @@ class Post
     }
 
     /**
-     * @ORM\PrePersist
-     */
-    public function createdAt()
-    {
-        $this->setCreatedAt(new Datetime());
-    }
-
-    /**
      * Get createdAt
      *
      * @return \DateTime
@@ -173,14 +165,6 @@ class Post
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function updateddAt()
-    {
-        $this->setUpdatedAt(new Datetime());
     }
 
     /**
