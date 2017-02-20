@@ -6,7 +6,7 @@ class AppExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-        new \Twig_SimpleFilter('truncate', array($this, 'truncateFilter'))
+        new \Twig_SimpleFilter('truncate', array($this, 'truncateFilter')),
         );
     }
     /**
@@ -18,7 +18,7 @@ class AppExtension extends \Twig_Extension
      */
     public function truncateFilter($content, $max_words, $ending = "...")
     {
-        $text = strip_tags($content);
+        $text = $content;
         $words = explode(' ', $text);
         if (count($words) > $max_words) {
             return implode(' ', array_slice($words, 0, $max_words)) . $ending;

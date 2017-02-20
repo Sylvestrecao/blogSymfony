@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Post controller.
@@ -31,8 +32,7 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('BlogBundle:Post')->getPosts();
-
-
+        
         $posts = $this->get('knp_paginator')->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -55,7 +55,7 @@ class PostController extends Controller
     public function showAction(Post $post)
     {
         return $this->render('BlogBundle:Default:show.html.twig', array(
-           'post' => $post
+           'post' => $post,
         ));
     }
 

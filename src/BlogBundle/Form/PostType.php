@@ -20,7 +20,7 @@ class PostType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('content', TextareaType::class, array('required' => false))
+            ->add('content', TextareaType::class)
             ->add('category', EntityType::class, ['class' => Category::class, 'choice_label' => 'name', 'label' => 'Catégorie'])
             ->add('user', EntityType::class, ['class' => User::class, 'choice_label' => 'username', 'label' => 'Auteur'])
             ->add('submit', SubmitType::class, ['label' => 'Valider'])
