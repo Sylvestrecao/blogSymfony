@@ -4,6 +4,7 @@ namespace BlogBundle\Controller;
 
 use BlogBundle\BlogBundle;
 use BlogBundle\Entity\Post;
+use BlogBundle\Form\CommentType;
 use BlogBundle\Form\PostType;
 use BlogBundle\Entity\User;
 use BlogBundle\Entity\Category;
@@ -32,7 +33,7 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('BlogBundle:Post')->getPosts();
-        
+
         $posts = $this->get('knp_paginator')->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -45,17 +46,30 @@ class PostController extends Controller
 
     }
 
-
     /**
      * Finds and displays a post entity.
      *
      * @Route("/{id}", name="post_show", requirements={"id": "\d+"})
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Post $post)
+    public function showAction(Post $post, Request $request)
     {
+        $comment = new Comment();
+        $form = $this->get('form.factory')->create(CommentType::class, $comment);
+        $comment->setPost($post);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+            $this->addFlash('success', 'Votre commentaire a été ajouté avec succès !');
+
+            return $this->redirectToRoute('post_index');
+        }
+
         return $this->render('BlogBundle:Default:show.html.twig', array(
-           'post' => $post,
+            'post' => $post,
+            'form' => $form->createView()
         ));
     }
 
