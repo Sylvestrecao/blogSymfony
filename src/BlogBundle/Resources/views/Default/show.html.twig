@@ -43,15 +43,24 @@
                     <h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 0 %}s{% endif %}</h3>
                     <div class="row">
                         {% for comment in post.comments  %}
-                            <div class="col-md-3"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                            <div class="col-md-9">
-                                <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ comment.username }}</span> le {{ comment.createdAt|date("d/m/Y") }}</p>
-                                <p>{{ comment.content }}</p>
+                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                            <div class="col-md-10">
+                                <div style="background-color: #ecf0f1;">
+                                    <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                    <p>{{ comment.content }}</p>
+                                    <p><a href="#add-comment-form" id="resp">Répondre</a> </p>
+                                </div>
+                                <div style="margin-left: 20px; background-color: #95a5a6;">
+                                    {% for commentResponse in comment.commentResponse %}
+                                        <strong><p>{{ commentResponse.getCreatedAt()|date("d/m/Y H:i") }}</p></strong>
+                                        <strong><p>{{ commentResponse.content }}</p></strong>
+                                    {% endfor %}
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
                     <h3>Vos Commentaires</h3>
-                    {{ form_start(form, {'attr': {'class': 'form-horizontal', 'style' : 'margin-top:50px;'}}) }}
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal', 'style' : 'margin-top:50px;', 'id': 'add-comment-form'}}) }}
                     {{ form_errors(form) }}
                         <div class="form-group">
                             <div class="col-sm-3">
@@ -92,4 +101,18 @@
             </div>
         </div>
     </article>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(function(){
+            $("#success").fadeIn(2000);
+            $('#resp').click(function(){
+                $('html, body').animate({
+                    scrollTop: $('#add-comment-form').offset().top
+                }, 1000);
+                return false;
+            });
+        })
+    </script>
 {% endblock %}

@@ -13,7 +13,7 @@
                     </a>
                     {{ post.content | truncate(80) | raw }}
                     <p class="post-meta">Posted by <a href="{{ path('author_show', {id: post.user.id}) }}">{{ post.user.username }}</a>
-                    {{ post.createdAt|date("m/d/Y") }}. In category : <a href="{{ path('category_show', {id: post.category.id}) }}">{{ post.category.name }}</a></p>
+                    {{ post.getCreatedAt()|date("m/d/Y") }}. In category : <a href="{{ path('category_show', {id: post.category.id}) }}">{{ post.category.name }}</a></p>
                 </div>
                 <hr>
                 {% endfor %}

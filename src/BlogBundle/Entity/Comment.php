@@ -51,11 +51,16 @@ class Comment
     private $createdAt;
 
     /**
-     * @var string
      *
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments", cascade={"persist"})
      */
     private $post;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="CommentResponse", mappedBy="comment", cascade={"persist"})
+     */
+    private $commentResponse;
 
     /**
      * Constructor
@@ -201,5 +206,53 @@ class Comment
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * Set commentResponse
+     *
+     * @param \BlogBundle\Entity\CommentResponse $commentResponse
+     *
+     * @return Comment
+     */
+    public function setCommentResponse(\BlogBundle\Entity\CommentResponse $commentResponse = null)
+    {
+        $this->commentResponse = $commentResponse;
+
+        return $this;
+    }
+
+    /**
+     * Get commentResponse
+     *
+     * @return \BlogBundle\Entity\CommentResponse
+     */
+    public function getCommentResponse()
+    {
+        return $this->commentResponse;
+    }
+
+    /**
+     * Add commentResponse
+     *
+     * @param \BlogBundle\Entity\CommentResponse $commentResponse
+     *
+     * @return Comment
+     */
+    public function addCommentResponse(\BlogBundle\Entity\CommentResponse $commentResponse)
+    {
+        $this->commentResponse[] = $commentResponse;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentResponse
+     *
+     * @param \BlogBundle\Entity\CommentResponse $commentResponse
+     */
+    public function removeCommentResponse(\BlogBundle\Entity\CommentResponse $commentResponse)
+    {
+        $this->commentResponse->removeElement($commentResponse);
     }
 }

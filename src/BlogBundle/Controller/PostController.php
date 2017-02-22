@@ -54,17 +54,18 @@ class PostController extends Controller
      */
     public function showAction(Post $post, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        // Add comment
         $comment = new Comment();
         $form = $this->get('form.factory')->create(CommentType::class, $comment);
         $comment->setPost($post);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
             $this->addFlash('success', 'Votre commentaire a été ajouté avec succès !');
 
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('post_show', array('id' => $post->getId()));
         }
 
         return $this->render('BlogBundle:Default:show.html.twig', array(
@@ -72,7 +73,6 @@ class PostController extends Controller
             'form' => $form->createView()
         ));
     }
-
     /**
      * Finds and displays author post entity.
      *

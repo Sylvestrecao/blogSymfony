@@ -3,12 +3,13 @@
 namespace BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use DateTime;
 /**
  * Comment
  *
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="BlogBundle\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -50,12 +51,24 @@ class Comment
     private $createdAt;
 
     /**
-     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments", cascade={"persist"})
      */
     private $post;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="CommentResponse", mappedBy="comment", cascade={"persist"})
+     */
+    private $commentResponse;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
 
     /**
      * Get id
@@ -154,6 +167,14 @@ class Comment
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function createdAt()
+    {
+        $this->setCreatedAt(new Datetime());
+    }
+
+    /**
      * Get createdAt
      *
      * @return \DateTime
@@ -186,5 +207,28 @@ class Comment
     {
         return $this->post;
     }
-}
 
+    /**
+     * Set commentResponse
+     *
+     * @param \BlogBundle\Entity\CommentResponse $commentResponse
+     *
+     * @return Comment
+     */
+    public function setCommentResponse(\BlogBundle\Entity\CommentResponse $commentResponse = null)
+    {
+        $this->commentResponse = $commentResponse;
+
+        return $this;
+    }
+
+    /**
+     * Get commentResponse
+     *
+     * @return \BlogBundle\Entity\CommentResponse
+     */
+    public function getCommentResponse()
+    {
+        return $this->commentResponse;
+    }
+}

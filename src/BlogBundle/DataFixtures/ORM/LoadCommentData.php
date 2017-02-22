@@ -3,6 +3,7 @@
 
 namespace BlogBundle\DataFixtures\ORM;
 
+use BlogBundle\Entity\CommentResponse;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use BlogBundle\Entity\Post;
@@ -76,7 +77,12 @@ class LoadCommentData implements FixtureInterface, ContainerAwareInterface
             $comment->setEmail($commentData['email']);
             $comment->setContent($commentData['content']);
 
+            $commentResponse = new CommentResponse();
+            $commentResponse->setContent("I am the response of comment");
+            $commentResponse->setComment($comment);
+
             $manager->persist($comment);
+            $manager->persist($commentResponse);
         }
         $manager->persist($post);
         $manager->flush();

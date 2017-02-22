@@ -10,4 +10,14 @@ namespace BlogBundle\Repository;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getComments($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.post = :id')
+            ->setParameter('id', $id)
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
