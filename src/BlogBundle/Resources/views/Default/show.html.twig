@@ -42,61 +42,97 @@
                     {% endfor %}
                     <h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 0 %}s{% endif %}</h3>
                     <div class="row">
-                        {% for comment in post.comments  %}
-                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                            <div class="col-md-10">
-                                <div style="background-color: #ecf0f1;">
-                                    <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                    <p>{{ comment.content }}</p>
-                                    <p><a href="#add-comment-form" id="resp">Répondre</a> </p>
+                        {# First loop #}
+                        {% for comment in post.comments %}
+                            {% if comment.parent is null %}
+                                <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                <div class="col-md-10">
+                                    <div style="background-color: #ecf0f1;">
+                                        <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                        <p>{{ comment.content }}</p>
+                                        <p><a href="#add-comment-form" data-toggle="modal" data-target="#{{ comment.id }}resp">Répondre</a></p>
+                                    </div>
                                 </div>
-                                <div style="margin-left: 20px; background-color: #95a5a6;">
-                                    {% for commentResponse in comment.commentResponse %}
-                                        <strong><p>{{ commentResponse.getCreatedAt()|date("d/m/Y H:i") }}</p></strong>
-                                        <strong><p>{{ commentResponse.content }}</p></strong>
+                                <div style="margin-left: 50px;">
+                                {# Second loop #}
+                                {% for commentChild in comment.children %}
+                                    <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                    <div class="col-md-10">
+                                        <div style="background-color: #ecf0f1;">
+                                            <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ commentChild.username }}</span> le {{ commentChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                            <p>{{ commentChild.content }}</p>
+                                            <p><a href="#add-comment-form" data-toggle="modal" data-target="#{{ commentChild.id }}resp">Répondre</a> </p>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 50px;">
+                                    {# Third loop #}
+                                    {% for commentSubChild in commentChild.children %}
+                                        {% if commentSubChild is not empty %}
+                                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                            <div class="col-md-10">
+                                                <div style="background-color: #ecf0f1;">
+                                                    <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ commentSubChild.username }}</span> le {{ commentSubChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                    <p>{{ commentSubChild.content }}</p>
+                                                    <p><a href="#add-comment-form"  data-toggle="modal" data-target="#{{ commentSubChild.id }}resp">Répondre</a> </p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {# End third loop #}
+                                        <div class="modal fade" id="{{ commentSubChild.id }}resp" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: commentSubChild.id})) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% endfor %}
+                                    </div>
+                                {# End Second loop #}
+                                    <div class="modal fade" id="{{ commentChild.id }}resp" role="dialog">
+                                        <div class="modal-dialog">
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: commentChild.id})) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            {% endif %}
+                        {# End First loop #}
+                            <div class="modal fade" id="{{ comment.id }}resp" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: comment.id})) }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
                     <h3>Vos Commentaires</h3>
-                    {{ form_start(form, {'attr': {'class': 'form-horizontal', 'style' : 'margin-top:50px;', 'id': 'add-comment-form'}}) }}
-                    {{ form_errors(form) }}
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                {{ form_label(form.content, "Commentaire:", {'attr': {'class': ''}}) }}
-                            </div>
-                            {{ form_errors(form.content) }}
-                            <div class="col-sm-9">
-                                {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': '5'}}) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                {{ form_label(form.username, "Nom:", {'attr': {'class': 'control-label'}}) }}
-                            </div>
-                            {{ form_errors(form.username) }}
-                            <div class="col-sm-9">
-                                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                {{ form_label(form.email, "Adresse email:", {'attr': {'class': 'control-label'}}) }}
-                            </div>
-                            {{ form_errors(form.email) }}
-                            <div class="col-sm-9">
-                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-9">
-                                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-default'}}) }}
-                            </div>
-                        </div>
-                    {{ form_rest(form) }}
-                    {{ form_end(form) }}
-
+                    <div style="margin-top: 50px;">
+                        {{ render(controller('BlogBundle:Post:addComment', {id: post.id})) }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,12 +143,6 @@
     <script type="text/javascript">
         $(function(){
             $("#success").fadeIn(2000);
-            $('#resp').click(function(){
-                $('html, body').animate({
-                    scrollTop: $('#add-comment-form').offset().top
-                }, 1000);
-                return false;
-            });
         })
     </script>
 {% endblock %}

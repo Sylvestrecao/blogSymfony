@@ -50,17 +50,33 @@ class PostController extends Controller
      * Finds and displays a post entity.
      *
      * @Route("/{id}", name="post_show", requirements={"id": "\d+"})
-     * @Method({"GET", "POST"})
+     * @Method("GET")
      */
-    public function showAction(Post $post, Request $request)
+    public function showAction(Post $post)
+    {
+        return $this->render('BlogBundle:Default:show.html.twig', array(
+            'post' => $post,
+        ));
+    }
+
+    /**
+     *
+     * @Route("/{id}/add_comment", name="add_comment", requirements={"id": "\d+"})
+     * @Method("POST")
+     */
+    public function addCommentAction(Request $request, Post $post)
     {
         $em = $this->getDoctrine()->getManager();
         // Add comment
         $comment = new Comment();
-        $form = $this->get('form.factory')->create(CommentType::class, $comment);
-        $comment->setPost($post);
+        $form = $this->get('form.factory')->create(CommentType::class, $comment, array(
+            'action' => $this->generateUrl('add_comment', array('id' => $post->getId())),
+            'method' => 'POST',
+        ));
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $comment->setPost($post);
+
             $em->persist($comment);
             $em->flush();
             $this->addFlash('success', 'Votre commentaire a été ajouté avec succès !');
@@ -68,11 +84,42 @@ class PostController extends Controller
             return $this->redirectToRoute('post_show', array('id' => $post->getId()));
         }
 
-        return $this->render('BlogBundle:Default:show.html.twig', array(
-            'post' => $post,
+        return $this->render('BlogBundle:Default:add-comment.html.twig', array(
             'form' => $form->createView()
         ));
     }
+    /**
+     *
+     *
+     * @Route("/{id}/add_comment/{comment_parent_id}", name="add_comment_response", requirements={"id": "\d+"})
+     * @Method("POST")
+     */
+    public function addCommentResponseAction(Request $request, Post $post, $comment_parent_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commentParent = $em->getRepository('BlogBundle:Comment')->find($comment_parent_id);
+        // Add comment
+        $comment = new Comment();
+        $form = $this->get('form.factory')->create(CommentType::class, $comment, array(
+            'action' => $this->generateUrl('add_comment_response', array('id' => $post->getId(), 'comment_parent_id' => $comment_parent_id)),
+            'method' => 'POST'
+        ));
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $comment->setPost($post);
+            $comment->setParent($commentParent);
+            $em->persist($comment);
+            $em->flush();
+            $this->addFlash('success', 'Votre réponse a été ajouté avec succès !');
+
+            return $this->redirectToRoute('post_show', array('id' => $post->getId()));
+        }
+
+        return $this->render('BlogBundle:Default:add-comment.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
     /**
      * Finds and displays author post entity.
      *

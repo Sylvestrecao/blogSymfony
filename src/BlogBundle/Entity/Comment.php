@@ -23,6 +23,19 @@ class Comment
     private $id;
 
     /**
+     * One Comment has Many Comments.
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent", cascade={"persist"})
+     */
+    private $children;
+
+    /**
+     * Many Comments have One Comment.
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children", cascade={"persist"})
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    private $parent;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
@@ -56,11 +69,6 @@ class Comment
      */
     private $post;
 
-    /**
-     *
-     * @ORM\OneToMany(targetEntity="CommentResponse", mappedBy="comment", cascade={"persist"})
-     */
-    private $commentResponse;
 
     /**
      * Constructor
@@ -68,6 +76,7 @@ class Comment
     public function __construct()
     {
         $this->createdAt = new DateTime();
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -165,15 +174,7 @@ class Comment
 
         return $this;
     }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function createdAt()
-    {
-        $this->setCreatedAt(new Datetime());
-    }
-
+    
     /**
      * Get createdAt
      *
@@ -208,51 +209,64 @@ class Comment
         return $this->post;
     }
 
+
+
     /**
-     * Set commentResponse
+     * Add child
      *
-     * @param \BlogBundle\Entity\CommentResponse $commentResponse
+     * @param \BlogBundle\Entity\Comment $child
      *
      * @return Comment
      */
-    public function setCommentResponse(\BlogBundle\Entity\CommentResponse $commentResponse = null)
+    public function addChild(\BlogBundle\Entity\Comment $child)
     {
-        $this->commentResponse = $commentResponse;
+        $this->children[] = $child;
+        $child->setParent($this);
 
         return $this;
     }
 
     /**
-     * Get commentResponse
+     * Remove child
      *
-     * @return \BlogBundle\Entity\CommentResponse
+     * @param \BlogBundle\Entity\Comment $child
      */
-    public function getCommentResponse()
+    public function removeChild(\BlogBundle\Entity\Comment $child)
     {
-        return $this->commentResponse;
+        $this->children->removeElement($child);
     }
 
     /**
-     * Add commentResponse
+     * Get children
      *
-     * @param \BlogBundle\Entity\CommentResponse $commentResponse
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \BlogBundle\Entity\Comment $parent
      *
      * @return Comment
      */
-    public function addCommentResponse(\BlogBundle\Entity\CommentResponse $commentResponse)
+    public function setParent(\BlogBundle\Entity\Comment $parent = null)
     {
-        $this->commentResponse[] = $commentResponse;
+        $this->parent = $parent;
 
         return $this;
     }
 
     /**
-     * Remove commentResponse
+     * Get parent
      *
-     * @param \BlogBundle\Entity\CommentResponse $commentResponse
+     * @return \BlogBundle\Entity\Comment
      */
-    public function removeCommentResponse(\BlogBundle\Entity\CommentResponse $commentResponse)
+    public function getParent()
     {
-        $this->commentResponse->removeElement($commentResponse);
+        return $this->parent;
     }
 }

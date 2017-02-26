@@ -3,7 +3,6 @@
 
 namespace BlogBundle\DataFixtures\ORM;
 
-use BlogBundle\Entity\CommentResponse;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use BlogBundle\Entity\Post;
@@ -52,21 +51,30 @@ class LoadCommentData implements FixtureInterface, ContainerAwareInterface
 
 
         // Set Comments
+        $commentParent = new Comment();
+        $commentParent->setContent('This article is awesome, nice job! :)');
+        $commentParent->setEmail('john@mail.com');
+        $commentParent->setUsername('John');
+        $commentParent->setPost($post);
+
+        $commentChild = new Comment();
+        $commentChild->setContent('I am a comment');
+        $commentChild->setEmail('john@mail.com');
+        $commentChild->setUsername('John');
+        $commentChild->setPost($post);
+
         $commentsData = array(
-            array(
-                'username' => 'John',
-                'email'    => 'john@mail.com',
-                'content'  => 'This article is awesome, nice job! :)'
-            ),
             array(
                 'username' => 'Alex',
                 'email'    => 'alex@mail.com',
-                'content'  => 'I love your content.'
+                'content'  => 'I love your content.',
+                'parent'   => $commentParent
             ),
             array(
                 'username' => 'Rachel',
                 'email'    => 'rachel@mail.com',
-                'content'  => 'Waiting for the next article.'
+                'content'  => 'Waiting for the next article.',
+                'parent'   => $commentParent
             )
         );
 
@@ -76,13 +84,9 @@ class LoadCommentData implements FixtureInterface, ContainerAwareInterface
             $comment->setUsername($commentData['username']);
             $comment->setEmail($commentData['email']);
             $comment->setContent($commentData['content']);
-
-            $commentResponse = new CommentResponse();
-            $commentResponse->setContent("I am the response of comment");
-            $commentResponse->setComment($comment);
-
+            $comment->setParent($commentData['parent']);
+            $comment->addChild($commentChild);
             $manager->persist($comment);
-            $manager->persist($commentResponse);
         }
         $manager->persist($post);
         $manager->flush();
