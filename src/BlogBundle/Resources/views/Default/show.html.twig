@@ -35,11 +35,15 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     {% for message in app.session.flashbag.get('success') %}
-                        <div class="alert alert-dismissible alert-success" id="success" style="display: none;">
+                        <div class="alert alert-dismissible alert-success display-none" id="success">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             {{ message }}
                         </div>
                     {% endfor %}
+                    <div class="alert alert-dismissible alert-success display-none" id="reportSuccess">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <span>Le commentaire a été signalé</span>
+                    </div>
                     <h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 0 %}s{% endif %}</h3>
                     <div class="row">
                         {# First loop #}
@@ -47,38 +51,45 @@
                             {% if comment.parent is null %}
                                 <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
                                 <div class="col-md-10">
-                                    <div style="background-color: #ecf0f1;">
-                                        <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                    <div class="background-color-clouds">
+                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                         <p>{{ comment.content }}</p>
-                                        <p><a href="#add-comment-form" data-toggle="modal" data-target="#{{ comment.id }}resp">Répondre</a></p>
+                                        <p><a href="#" data-toggle="modal" data-target="#{{ comment.id }}resp">Répondre</a></p>
+                                        <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ comment.id }})"><i class="glyphicon glyphicon-alert"></i></a>
+                                           <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
+                                        </p>
                                     </div>
                                 </div>
-                                <div style="margin-left: 50px;">
-                                {# Second loop #}
-                                {% for commentChild in comment.children %}
-                                    <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                    <div class="col-md-10">
-                                        <div style="background-color: #ecf0f1;">
-                                            <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ commentChild.username }}</span> le {{ commentChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                            <p>{{ commentChild.content }}</p>
-                                            <p><a href="#add-comment-form" data-toggle="modal" data-target="#{{ commentChild.id }}resp">Répondre</a> </p>
+                                <div class="modal fade" id="{{ comment.id }}resp" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: comment.id})) }}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div style="margin-left: 50px;">
-                                    {# Third loop #}
-                                    {% for commentSubChild in commentChild.children %}
-                                        {% if commentSubChild is not empty %}
-                                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                            <div class="col-md-10">
-                                                <div style="background-color: #ecf0f1;">
-                                                    <p style="margin: 0px;">Commentaire de <span style="font-weight: bold;">{{ commentSubChild.username }}</span> le {{ commentSubChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                                    <p>{{ commentSubChild.content }}</p>
-                                                    <p><a href="#add-comment-form"  data-toggle="modal" data-target="#{{ commentSubChild.id }}resp">Répondre</a> </p>
-                                                </div>
+                                </div>
+
+                                <div class="mg-l-50">
+                                    {# Second loop #}
+                                    {% for commentFirstChild in comment.children %}
+                                        <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                        <div class="col-md-10">
+                                            <div class="background-color-clouds">
+                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                <p>{{ commentFirstChild.content }}</p>
+                                                <p><a href="#" data-toggle="modal" data-target="#{{ commentFirstChild.id }}resp">Répondre</a></p>
+                                                <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ commentFirstChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
+                                                    <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
+                                                </p>
                                             </div>
-                                        {% endif %}
-                                    {# End third loop #}
-                                        <div class="modal fade" id="{{ commentSubChild.id }}resp" role="dialog">
+                                        </div>
+                                        <div class="modal fade" id="{{ commentFirstChild.id }}resp" role="dialog">
                                             <div class="modal-dialog">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
@@ -87,50 +98,69 @@
                                                         <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: commentSubChild.id})) }}
+                                                        {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: commentFirstChild.id})) }}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    {% endfor %}
-                                    </div>
-                                {# End Second loop #}
-                                    <div class="modal fade" id="{{ commentChild.id }}resp" role="dialog">
-                                        <div class="modal-dialog">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
+
+                                        <div class="mg-l-50">
+                                            {# Third loop #}
+                                            {% for commentSecondChild in commentFirstChild.children %}
+                                                <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                                <div class="col-md-10">
+                                                    <div class="background-color-clouds">
+                                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                        <p>{{ commentSecondChild.content }}</p>
+                                                        <p><a href="#" data-toggle="modal" data-target="#{{ commentSecondChild.id }}resp">Répondre</a></p>
+                                                        <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ commentSecondChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
+                                                            <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
-                                                    {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: commentChild.id})) }}
+                                                <div class="modal fade" id="{{ commentSecondChild.id }}resp" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: commentSecondChild.id})) }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+
+                                                <div class="mg-l-50">
+                                                    {# Fourth loop #}
+                                                    {% for commentThirdChild in commentSecondChild.children %}
+                                                        <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                                        <div class="col-md-10">
+                                                            <div class="background-color-clouds">
+                                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                                <p>{{ commentThirdChild.content }}</p>
+                                                                <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ commentThirdChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
+                                                                    <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                    {# End Fourth loop #}
+                                                </div>
+                                            {% endfor %}
+                                            {# End Third loop #}
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                    {# End Second loop #}
                                 </div>
                             {% endif %}
-                        {# End First loop #}
-                            <div class="modal fade" id="{{ comment.id }}resp" role="dialog">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title text-center">Répondre à ce commentaire</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            {{ render(controller('BlogBundle:Post:addCommentResponse', {id: post.id, comment_parent_id: comment.id})) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         {% endfor %}
+                        {# End First loop #}
                     </div>
-                    <h3>Vos Commentaires</h3>
-                    <div style="margin-top: 50px;">
+                    <h3 class="mg-t-50">Vos Commentaires</h3>
+                    <div class="mg-t-50">
                         {{ render(controller('BlogBundle:Post:addComment', {id: post.id})) }}
                     </div>
                 </div>
@@ -141,8 +171,6 @@
 
 {% block script %}
     <script type="text/javascript">
-        $(function(){
-            $("#success").fadeIn(2000);
-        })
+        fadeInSuccess()
     </script>
 {% endblock %}

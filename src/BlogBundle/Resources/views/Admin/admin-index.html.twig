@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             {% for message in app.session.flashbag.get('success') %}
-                <div class="alert alert-dismissible alert-success" id="success" style="display: none;">
+                <div class="alert alert-dismissible alert-success display-none" id="success">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {{ message }}
                 </div>
@@ -71,8 +71,6 @@
 
 {% block script %}
     <script type="text/javascript">
-        $(function(){
-            $("#success").fadeIn(2000);
-        })
+        fadeInSuccess()
     </script>
 {% endblock %}

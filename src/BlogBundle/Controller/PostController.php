@@ -12,9 +12,11 @@ use BlogBundle\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Post controller.
@@ -243,4 +245,28 @@ class PostController extends Controller
         return $this->redirectToRoute('admin_show');
     }
 
+    /**
+     * Set reportComment bool
+     *
+     * @Route("/setreport", name="set_cart")
+     * @Method("POST")
+     */
+    public function setReportAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            $data = $request->request->all();
+            $id = $data['Comment_ID'];
+           // $session = $request->getSession();
+           // $session->set('panier', $data);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $comment = $em->getRepository('BlogBundle:Comment')->find($id);
+        $comment->setReport(true);
+
+        $em->persist($comment);
+        $em->flush();
+
+        return $this->redirectToRoute('post_index');
+    }
 }

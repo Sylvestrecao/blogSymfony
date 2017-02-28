@@ -39,6 +39,18 @@ blockquote {
   color: #777777;
   font-style: italic;
 }
+.mg-0{
+  margin: 0px;
+}
+.mg-t-50{
+  margin-top: 50px;
+}
+.mg-l-15{
+  margin-left: 15px;
+}
+.mg-l-50{
+  margin-left: 50px;
+}
 hr.small {
   max-width: 100px;
   margin: 15px auto;
@@ -397,4 +409,13 @@ img::-moz-selection {
 }
 body {
   -webkit-tap-highlight-color: #0085A1;
+}
+.display-none{
+  display: none;
+}
+.background-color-clouds{
+  background-color: #ecf0f1;
+}
+.text-bold{
+  font-weight: bold;
 }

@@ -36,6 +36,12 @@ class Comment
     private $parent;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="report", type="boolean")
+     */
+    private $report;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
@@ -268,5 +274,29 @@ class Comment
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Set report
+     *
+     * @param boolean $report
+     *
+     * @return Comment
+     */
+    public function setReport($report)
+    {
+        $this->report = $report;
+
+        return $this;
+    }
+
+    /**
+     * Get report
+     *
+     * @return boolean
+     */
+    public function getReport()
+    {
+        return $this->report;
     }
 }
