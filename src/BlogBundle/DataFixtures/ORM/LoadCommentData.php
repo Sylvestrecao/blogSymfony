@@ -56,12 +56,14 @@ class LoadCommentData implements FixtureInterface, ContainerAwareInterface
         $commentParent->setEmail('john@mail.com');
         $commentParent->setUsername('John');
         $commentParent->setPost($post);
+        $commentParent->setReport(false);
 
         $commentChild = new Comment();
         $commentChild->setContent('I am a comment');
         $commentChild->setEmail('john@mail.com');
         $commentChild->setUsername('John');
         $commentChild->setPost($post);
+        $commentChild->setReport(false);
 
         $commentsData = array(
             array(
@@ -85,6 +87,7 @@ class LoadCommentData implements FixtureInterface, ContainerAwareInterface
             $comment->setEmail($commentData['email']);
             $comment->setContent($commentData['content']);
             $comment->setParent($commentData['parent']);
+            $comment->setReport(false);
             $comment->addChild($commentChild);
             $manager->persist($comment);
         }

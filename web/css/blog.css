@@ -45,11 +45,17 @@ blockquote {
 .mg-t-50{
   margin-top: 50px;
 }
+.mg-b-50{
+  margin-bottom: 50px;
+}
 .mg-l-15{
   margin-left: 15px;
 }
 .mg-l-50{
   margin-left: 50px;
+}
+.pd-10{
+  padding: 10px;
 }
 hr.small {
   max-width: 100px;

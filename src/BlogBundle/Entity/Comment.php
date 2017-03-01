@@ -31,15 +31,15 @@ class Comment
     /**
      * Many Comments have One Comment.
      * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children", cascade={"persist"})
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="cascade")
      */
     private $parent;
 
     /**
-     * @var boolean
-     * @ORM\Column(name="report", type="boolean")
+     * @var int
+     * @ORM\Column(name="report", type="integer")
      */
-    private $report;
+    private $report = 0;
 
     /**
      * @var string
@@ -279,7 +279,7 @@ class Comment
     /**
      * Set report
      *
-     * @param boolean $report
+     * @param int $report
      *
      * @return Comment
      */
@@ -293,7 +293,7 @@ class Comment
     /**
      * Get report
      *
-     * @return boolean
+     * @return int
      */
     public function getReport()
     {

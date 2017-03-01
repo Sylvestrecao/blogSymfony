@@ -1,9 +1,11 @@
 {% extends("::layout/layout-home.html.twig") %}
 
 {% block body %}
+    {# Start container #}
     <div class="container">
         <a href="{{ path('admin_show') }}" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Retour à la liste d'article</a>
         <h1>Espace d'administration</h1>
+        {# Start first row #}
         <div class="row">
             {{ form_start(form) }}
             {{ form_errors(form) }}
@@ -43,7 +45,100 @@
             {{ form_rest(form) }}
             {{ form_end(form) }}
         </div>
+        {# End first row #}
+
+        {# Comments section start 2nd row #}
+        <div class="row">
+            {# Nav tabs #}
+            <ul class="nav nav-tabs mg-t-50">
+                <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Voir tous les commentaires ({{ post.comments|length }})</a></li>
+                <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Voir les commentaires les plus signalés ({{ commentReport|length }})</a></li>
+            </ul>
+            {# Tabs content #}
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="home">
+                    <div class="col-md-12"><h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 1 %}s{% endif %}</h3></div>
+                    {# First loop #}
+                    {% for comment in post.comments %}
+                        {% if comment.parent is null %}
+                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                            <div class="col-md-10 mg-b-50">
+                                <div class="background-color-clouds pd-10">
+                                    <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                    <p>{{ comment.content }}</p>
+                                    <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
+                                </div>
+                            </div>
+
+                            <div class="mg-l-50">
+                                {# Second loop #}
+                                {% for commentFirstChild in comment.children %}
+                                    <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                    <div class="col-md-10 mg-b-50">
+                                        <div class="background-color-clouds pd-10">
+                                            <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                            <p>{{ commentFirstChild.content }}</p>
+                                            <p><i class="glyphicon glyphicon-alert"></i> {{ commentFirstChild.report }}</a></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mg-l-50">
+                                        {# Third loop #}
+                                        {% for commentSecondChild in commentFirstChild.children %}
+                                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                            <div class="col-md-10 mg-b-50">
+                                                <div class="background-color-clouds pd-10">
+                                                    <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                    <p>{{ commentSecondChild.content }}</p>
+                                                    <p><i class="glyphicon glyphicon-alert"></i> {{ commentSecondChild.report }}</a></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="mg-l-50">
+                                                {# Fourth loop #}
+                                                {% for commentThirdChild in commentSecondChild.children %}
+                                                    <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                                    <div class="col-md-10 mg-b-50">
+                                                        <div class="background-color-clouds pd-10">
+                                                            <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                            <p>{{ commentThirdChild.content }}</p>
+                                                            <p><i class="glyphicon glyphicon-alert"></i> {{ commentThirdChild.report }}</a></p>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                                {# End Fourth loop #}
+                                            </div>
+                                        {% endfor %}
+                                        {# End Third loop #}
+                                    </div>
+                                {% endfor %}
+                                {# End Second loop #}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {# End First loop #}
+                </div>
+                <div class="tab-pane fade" id="profile">
+                    <div class="col-md-12"><h3>{{ commentReport|length }} Commentaire{% if commentReport|length > 1 %}s{% endif %}</h3></div>
+                    {% for comment in commentReport %}
+                        <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                        <div class="col-md-10 mg-b-50">
+                            <div class="background-color-clouds pd-10">
+                                <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                <p>{{ comment.content }}</p>
+                                <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        {# Comments section End 2nd row #}
+
     </div>
+    {# End container #}
 {% endblock %}
 
 {% block script %}

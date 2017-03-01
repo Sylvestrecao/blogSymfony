@@ -50,8 +50,8 @@
                         {% for comment in post.comments %}
                             {% if comment.parent is null %}
                                 <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                <div class="col-md-10">
-                                    <div class="background-color-clouds">
+                                <div class="col-md-10 mg-b-50">
+                                    <div class="background-color-clouds pd-10">
                                         <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                         <p>{{ comment.content }}</p>
                                         <p><a href="#" data-toggle="modal" data-target="#{{ comment.id }}resp">Répondre</a></p>
@@ -79,8 +79,8 @@
                                     {# Second loop #}
                                     {% for commentFirstChild in comment.children %}
                                         <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                        <div class="col-md-10">
-                                            <div class="background-color-clouds">
+                                        <div class="col-md-10 mg-b-50">
+                                            <div class="background-color-clouds pd-10">
                                                 <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                                 <p>{{ commentFirstChild.content }}</p>
                                                 <p><a href="#" data-toggle="modal" data-target="#{{ commentFirstChild.id }}resp">Répondre</a></p>
@@ -108,8 +108,8 @@
                                             {# Third loop #}
                                             {% for commentSecondChild in commentFirstChild.children %}
                                                 <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                                <div class="col-md-10">
-                                                    <div class="background-color-clouds">
+                                                <div class="col-md-10 mg-b-50">
+                                                    <div class="background-color-clouds pd-10">
                                                         <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                                         <p>{{ commentSecondChild.content }}</p>
                                                         <p><a href="#" data-toggle="modal" data-target="#{{ commentSecondChild.id }}resp">Répondre</a></p>
@@ -137,8 +137,8 @@
                                                     {# Fourth loop #}
                                                     {% for commentThirdChild in commentSecondChild.children %}
                                                         <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                                        <div class="col-md-10">
-                                                            <div class="background-color-clouds">
+                                                        <div class="col-md-10 mg-b-50">
+                                                            <div class="background-color-clouds pd-10">
                                                                 <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                                                 <p>{{ commentThirdChild.content }}</p>
                                                                 <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ commentThirdChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>

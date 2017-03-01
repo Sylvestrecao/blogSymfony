@@ -8,12 +8,12 @@ function fadeInSuccess(){
 }
 
 function setReport(id){
-    var bloghost = "http://localhost/blogSymfony/web/app_dev.php";
+    var path = Routing.generate('set_report');
     var reportData = {"Comment_ID": id};
     $.ajax({
         type: "POST",
         data: reportData,
-        url: bloghost + '/setreport',
+        url: path,
         success: function(){
             console.log(reportData);
             $("#reportSuccess").fadeIn(1000);

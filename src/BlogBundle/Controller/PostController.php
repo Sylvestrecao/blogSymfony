@@ -211,6 +211,8 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository('BlogBundle:Post')->find($id);
+        $commentReport = $em->getRepository('BlogBundle:Comment')->getCommentReport($id);
+
         $form = $this->createForm(PostType::class, $post);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
@@ -222,7 +224,8 @@ class PostController extends Controller
 
         return $this->render('BlogBundle:Admin:admin-edit.html.twig', array(
             'form' => $form->createView(),
-            'post' => $post
+            'post' => $post,
+            'commentReport' => $commentReport
         ));
     }
 
@@ -248,7 +251,7 @@ class PostController extends Controller
     /**
      * Set reportComment bool
      *
-     * @Route("/setreport", name="set_cart")
+     * @Route("/setreport", options={"expose"=true}, name="set_report")
      * @Method("POST")
      */
     public function setReportAction(Request $request)
@@ -262,11 +265,13 @@ class PostController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $comment = $em->getRepository('BlogBundle:Comment')->find($id);
-        $comment->setReport(true);
+        $reportNumber = $comment->getReport();
+        $newReportNumber = $reportNumber + 1;
+        $comment->setReport($newReportNumber);
 
         $em->persist($comment);
         $em->flush();
 
-        return $this->redirectToRoute('post_index');
+        return new Response('success');
     }
 }
