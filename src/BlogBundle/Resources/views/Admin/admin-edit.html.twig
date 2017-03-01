@@ -50,6 +50,10 @@
         {# Comments section start 2nd row #}
         <div class="row">
             {# Nav tabs #}
+            <div class="alert alert-dismissible alert-success display-none" id="deleteSuccess">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Le commentaire a été supprimé avec succès !
+            </div>
             <ul class="nav nav-tabs mg-t-50">
                 <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Voir tous les commentaires ({{ post.comments|length }})</a></li>
                 <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Voir les commentaires les plus signalés ({{ commentReport|length }})</a></li>
@@ -67,6 +71,7 @@
                                     <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                     <p>{{ comment.content }}</p>
                                     <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
+                                    <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ comment.id }})">Supprimer ce commentaire</a></p>
                                 </div>
                             </div>
 
@@ -79,6 +84,7 @@
                                             <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                             <p>{{ commentFirstChild.content }}</p>
                                             <p><i class="glyphicon glyphicon-alert"></i> {{ commentFirstChild.report }}</a></p>
+                                            <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentFirstChild.id }})">Supprimer ce commentaire</a></p>
                                         </div>
                                     </div>
 
@@ -91,6 +97,7 @@
                                                     <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                                     <p>{{ commentSecondChild.content }}</p>
                                                     <p><i class="glyphicon glyphicon-alert"></i> {{ commentSecondChild.report }}</a></p>
+                                                    <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentSecondChild.id }})">Supprimer ce commentaire</a></p>
                                                 </div>
                                             </div>
 
@@ -103,6 +110,7 @@
                                                             <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                                             <p>{{ commentThirdChild.content }}</p>
                                                             <p><i class="glyphicon glyphicon-alert"></i> {{ commentThirdChild.report }}</a></p>
+                                                            <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentThirdChild.id }})">Supprimer ce commentaire</a></p>
                                                         </div>
                                                     </div>
                                                 {% endfor %}
@@ -127,6 +135,7 @@
                                 <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                 <p>{{ comment.content }}</p>
                                 <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
+                                <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ comment.id }})">Supprimer ce commentaire</a></p>
                             </div>
                         </div>
                     {% endfor %}
@@ -142,6 +151,7 @@
 {% endblock %}
 
 {% block script %}
+    <script type="text/javascript"></script>
     <script src="{{ asset('js/tinymce.min.js') }}"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
 {% endblock %}

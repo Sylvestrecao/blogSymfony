@@ -249,6 +249,27 @@ class PostController extends Controller
     }
 
     /**
+     * Deletes a comment entity.
+     *
+     * @Route("/admin/delete-comment", options={"expose"=true}, name="admin_comment_delete")
+     * @Method("POST")
+     */
+    public function deleteCommentAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            $data = $request->request->all();
+            $id = $data['Comment_ID'];
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $comment = $em->getRepository('BlogBundle:Comment')->find($id);
+        $em->remove($comment);
+        $em->flush();
+
+        return new Response('success');
+    }
+
+    /**
      * Set reportComment bool
      *
      * @Route("/setreport", options={"expose"=true}, name="set_report")

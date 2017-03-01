@@ -52,12 +52,11 @@
                                 <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
                                 <div class="col-md-10 mg-b-50">
                                     <div class="background-color-clouds pd-10">
-                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}
+                                            <a href="#" class="reportComment float-right" class="mg-l-15" title="Signaler ce commentaire comment étant inapproprié" onclick="setReport({{ comment.id }})"><i class="glyphicon glyphicon-alert"></i></a>
+                                        </p>
                                         <p>{{ comment.content }}</p>
                                         <p><a href="#" data-toggle="modal" data-target="#{{ comment.id }}resp">Répondre</a></p>
-                                        <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ comment.id }})"><i class="glyphicon glyphicon-alert"></i></a>
-                                           <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
-                                        </p>
                                     </div>
                                 </div>
                                 <div class="modal fade" id="{{ comment.id }}resp" role="dialog">
@@ -81,12 +80,11 @@
                                         <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
                                         <div class="col-md-10 mg-b-50">
                                             <div class="background-color-clouds pd-10">
-                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}
+                                                    <a href="#" class="reportComment float-right" class="mg-l-15" title="Signaler ce commentaire comment étant inapproprié" onclick="setReport({{ commentFirstChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
+                                                </p>
                                                 <p>{{ commentFirstChild.content }}</p>
                                                 <p><a href="#" data-toggle="modal" data-target="#{{ commentFirstChild.id }}resp">Répondre</a></p>
-                                                <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ commentFirstChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
-                                                    <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
-                                                </p>
                                             </div>
                                         </div>
                                         <div class="modal fade" id="{{ commentFirstChild.id }}resp" role="dialog">
@@ -110,12 +108,11 @@
                                                 <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
                                                 <div class="col-md-10 mg-b-50">
                                                     <div class="background-color-clouds pd-10">
-                                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}
+                                                            <a href="#" class="reportComment float-right" class="mg-l-15" title="Signaler ce commentaire comment étant inapproprié" onclick="setReport({{ commentSecondChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
+                                                        </p>
                                                         <p>{{ commentSecondChild.content }}</p>
                                                         <p><a href="#" data-toggle="modal" data-target="#{{ commentSecondChild.id }}resp">Répondre</a></p>
-                                                        <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ commentSecondChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
-                                                            <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
-                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="modal fade" id="{{ commentSecondChild.id }}resp" role="dialog">
@@ -139,11 +136,10 @@
                                                         <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
                                                         <div class="col-md-10 mg-b-50">
                                                             <div class="background-color-clouds pd-10">
-                                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                                                <p>{{ commentThirdChild.content }}</p>
-                                                                <p><a href="#" class="reportComment" class="mg-l-15" title="signaler ce commentaire" onclick="setReport({{ commentThirdChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
-                                                                    <a href="#" class="mg-l-15" title="j'aime ce commentaire"><i class=" glyphicon glyphicon-heart"></i></a>
+                                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}
+                                                                    <a href="#" class="reportComment float-right" class="mg-l-15" title="Signaler ce commentaire comment étant inapproprié" onclick="setReport({{ commentThirdChild.id }})"><i class="glyphicon glyphicon-alert"></i></a>
                                                                 </p>
+                                                                <p>{{ commentThirdChild.content }}</p>
                                                             </div>
                                                         </div>
                                                     {% endfor %}

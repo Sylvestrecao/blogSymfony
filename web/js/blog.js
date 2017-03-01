@@ -23,3 +23,20 @@ function setReport(id){
         }
     });
 }
+function deleteComment(id){
+    var path = Routing.generate('admin_comment_delete');
+    var commentData = {"Comment_ID": id};
+    $.ajax({
+        type: "POST",
+        data: commentData,
+        url: path,
+        success: function(){
+            console.log(commentData);
+            window.location.reload();
+            $("#deleteSuccess").fadeIn(1000);
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
