@@ -34,7 +34,7 @@ class PostController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository('BlogBundle:Post')->getPosts();
+        $query = $em->getRepository('BlogBundle:Post')->getPostWithCategoryAndUserQuery();
 
         $posts = $this->get('knp_paginator')->paginate(
             $query,
@@ -54,8 +54,12 @@ class PostController extends Controller
      * @Route("/{id}", name="post_show", requirements={"id": "\d+"})
      * @Method("GET")
      */
-    public function showAction(Post $post)
+    public function showAction($id)
     {
+        $em = $this->getDoctrine()->getManager();
+        
+        $post = $em->getRepository('BlogBundle:Post')->getOnePostWithCategoryAndUserAndComment($id);
+
         return $this->render('BlogBundle:Default:show.html.twig', array(
             'post' => $post,
         ));
@@ -162,12 +166,12 @@ class PostController extends Controller
      *
      * @Route("/admin", name="admin_show")
      * @Security("has_role('ROLE_ADMIN')")
-     * @Method({"GET", "POST"})
+     * @Method("GET")
      */
     public function adminAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository('BlogBundle:Post')->getAllPosts();
+        $posts = $em->getRepository('BlogBundle:Post')->getPostWithCategoryAndUser();
         $form = $this->get('form.factory')->create();
 
         return $this->render('BlogBundle:Admin:admin-index.html.twig', array(
@@ -207,7 +211,7 @@ class PostController extends Controller
      * @Route("/admin/edit/{id}", name="admin_post_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Post $post, $id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository('BlogBundle:Post')->find($id);

@@ -30,16 +30,3 @@
 
 {% endblock %}
 
-
-
-{% block script %}
-    <script type="text/javascript">
-        function getCommentId(id){
-            var newaction = '/blogSymfony/web/app_dev.php/add_comment/' + id
-            $('#formid').attr('action', newaction);
-        }
-
-
-    </script>
-
-{% endblock %}

@@ -17,6 +17,7 @@
                     <th>ID</th>
                     <th>Nom</th>
                     <th>Catégories</th>
+                    <th>Auteur</th>
                     <th class="text-center">Dates de publications</th>
                     <th class="text-center">Actions</th>
                 </tr>
@@ -27,6 +28,7 @@
                         <td>{{ post.id }}</td>
                         <td>{{ post.name }}</td>
                         <td>{{ post.category.name }}</td>
+                        <td>{{ post.user.username }}</td>
                         <td>{{ post.getCreatedAt()|date('d/m/Y H:i') }}</td>
                         <td>
                             <div class="col-sm-5"><a href="{{ path('admin_post_edit', {id: post.id}) }}" class="btn btn-info">Éditer</a></div>

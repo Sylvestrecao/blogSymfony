@@ -13,6 +13,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     public function getAuthorPosts($id)
     {
         return $this->createQueryBuilder('p')
+            ->leftJoin("p.category", "c")
+            ->addSelect("c")
             ->where('p.user = :id')
             ->setParameter('id', $id)
             ->orderBy('p.createdAt', 'DESC')
@@ -24,6 +26,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     public function getCategoryPosts($id)
     {
         return $this->createQueryBuilder('p')
+            ->leftJoin("p.user", "u")
+            ->addSelect("u")
             ->where('p.category = :id')
             ->setParameter('id', $id)
             ->orderBy('p.createdAt', 'DESC')
@@ -32,19 +36,44 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ;
     }
 
-    public function getAllPosts()
+    public function getPostWithCategoryAndUserQuery()
     {
         return $this->createQueryBuilder('p')
+            ->leftJoin("p.category", "c")
+            ->addSelect("c")
+            ->leftJoin("p.user", "u")
+            ->addSelect("u")
+            ->orderBy('p.createdAt', 'DESC')
+            ;
+    }
+
+    public function getPostWithCategoryAndUser()
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin("p.category", "c")
+            ->addSelect("c")
+            ->leftJoin("p.user", "u")
+            ->addSelect("u")
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
 
-    public function getPosts()
+    public function getOnePostWithCategoryAndUserAndComment($id)
     {
         return $this->createQueryBuilder('p')
+            ->leftJoin("p.category", "c")
+            ->addSelect("c")
+            ->leftJoin("p.user", "u")
+            ->addSelect("u")
+            ->leftJoin("p.comments", "cm")
+            ->addSelect("cm")
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
             ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getSingleResult()
             ;
     }
 }
