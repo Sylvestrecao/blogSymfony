@@ -5,7 +5,7 @@
         <a href="{{ path('admin_show') }}" class="btn btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Retour à la liste d'article</a>
         <h1>Espace d'administration</h1>
         <div class="row">
-            {{ form_start(form) }}
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
             {{ form_errors(form) }}
             <div class="col-md-6">
                 <div class="form-group">

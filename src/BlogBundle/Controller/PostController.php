@@ -58,7 +58,7 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $post = $em->getRepository('BlogBundle:Post')->find($id);
+        $post = $em->getRepository('BlogBundle:Post')->getOnePostWithCategoryAndUserAndComment($id);
 
         return $this->render('BlogBundle:Default:show.html.twig', array(
             'post' => $post,
@@ -214,7 +214,7 @@ class PostController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $post = $em->getRepository('BlogBundle:Post')->find($id);
+        $post = $em->getRepository('BlogBundle:Post')->getOnePostWithCategoryAndUserAndComment($id);
         $commentReport = $em->getRepository('BlogBundle:Comment')->getCommentReport($id);
 
         $form = $this->createForm(PostType::class, $post);
