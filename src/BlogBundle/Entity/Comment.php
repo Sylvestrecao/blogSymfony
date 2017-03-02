@@ -3,6 +3,7 @@
 namespace BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 /**
  * Comment
@@ -45,6 +46,7 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
+     * @Assert\Length(min=3)
      */
     private $username;
 
@@ -52,6 +54,7 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
@@ -59,6 +62,7 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 
@@ -66,6 +70,7 @@ class Comment
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
+     * @Assert\DateTime()
      */
     private $createdAt;
 
