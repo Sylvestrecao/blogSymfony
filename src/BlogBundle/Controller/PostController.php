@@ -58,7 +58,7 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $post = $em->getRepository('BlogBundle:Post')->getOnePostWithCategoryAndUserAndComment($id);
+        $post = $em->getRepository('BlogBundle:Post')->find($id);
 
         return $this->render('BlogBundle:Default:show.html.twig', array(
             'post' => $post,
