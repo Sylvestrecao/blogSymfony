@@ -35,7 +35,6 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('BlogBundle:Post')->getPostWithCategoryAndUserQuery();
-
         $posts = $this->get('knp_paginator')->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -165,7 +164,6 @@ class PostController extends Controller
      * Displays admin panel.
      *
      * @Route("/admin", name="admin_show")
-     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      */
     public function adminAction()
@@ -189,7 +187,7 @@ class PostController extends Controller
     public function newAction(Request $request)
     {
         $post = new Post();
-        $form = $this->get('form.factory')->create(PostType::class, $post);
+        $form = $this->get('form.factory')->create(PostType::class, $post, array('user' => $this->getUser()->getUsername()));
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -217,7 +215,7 @@ class PostController extends Controller
         $post = $em->getRepository('BlogBundle:Post')->getOnePostWithCategoryAndUserAndComment($id);
         $commentReport = $em->getRepository('BlogBundle:Comment')->getCommentReport($id);
 
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostType::class, $post, array('user' => $this->getUser()->getUsername()));
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em->flush();
