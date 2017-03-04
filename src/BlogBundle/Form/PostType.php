@@ -20,21 +20,36 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->user = $options['user'];
-        $builder
-            ->add('name', TextType::class)
-            ->add('content', TextareaType::class)
-            ->add('category', EntityType::class, ['class' => Category::class, 'choice_label' => 'name'])
-            ->add('user', EntityType::class, array(
-               'class' => User::class,
-               'query_builder' => function (EntityRepository $er) {
-                   return $er->createQueryBuilder('u')
-                       ->where('u.username = :username')
-                       ->setParameter('username', $this->user);
-               },
-               'choice_label' => 'username',
-           ))
-            ->add('submit', SubmitType::class, ['label' => 'Valider'])
-        ;
+        if($this->user == 'Admin'){
+            $builder
+                ->add('name', TextType::class)
+                ->add('content', TextareaType::class)
+                ->add('category', EntityType::class, ['class' => Category::class, 'choice_label' => 'name'])
+                ->add('user', EntityType::class, array(
+                    'class' => User::class,
+                    'choice_label' => 'username',
+                ))
+                ->add('submit', SubmitType::class, ['label' => 'Valider'])
+            ;
+        }
+        else{
+            $builder
+                ->add('name', TextType::class)
+                ->add('content', TextareaType::class)
+                ->add('category', EntityType::class, ['class' => Category::class, 'choice_label' => 'name'])
+                ->add('user', EntityType::class, array(
+                    'class' => User::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.username = :username')
+                            ->setParameter('username', $this->user);
+                    },
+                    'choice_label' => 'username',
+                ))
+                ->add('submit', SubmitType::class, ['label' => 'Valider'])
+            ;
+        }
+
     }
 
     /**

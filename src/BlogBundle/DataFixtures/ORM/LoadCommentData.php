@@ -28,9 +28,9 @@ class LoadCommentData implements FixtureInterface, ContainerAwareInterface
         $userManager = $this->container->get('fos_user.user_manager');
         // Create our user and set details
         $user = $userManager->createUser();
-        $user->setUsername('Rédacteur');
-        $user->setEmail('rédacteur@domain.com');
-        $user->setPlainPassword('rédacteur');
+        $user->setUsername('Auteur1');
+        $user->setEmail('auteur1@domain.com');
+        $user->setPlainPassword('auteur1');
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_AUTEUR'));
         // New Category
