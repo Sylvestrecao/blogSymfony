@@ -65,52 +65,57 @@
                     {# First loop #}
                     {% for comment in post.comments %}
                         {% if comment.parent is null %}
-                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                            <div class="col-md-10 mg-b-50">
-                                <div class="background-color-clouds pd-10">
-                                    <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                    <p>{{ comment.content }}</p>
-                                    <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
-                                    <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ comment.id }})">Supprimer ce commentaire</a></p>
+                            <div id="{{ comment.id }}">
+                                <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                <div class="col-md-10 mg-b-50">
+                                    <div class="background-color-clouds pd-10">
+                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                        <p>{{ comment.content }}</p>
+                                        <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
+                                        <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ comment.id }})">Supprimer ce commentaire</a></p>
+                                    </div>
                                 </div>
                             </div>
-
                             <div class="mg-l-50">
                                 {# Second loop #}
                                 {% for commentFirstChild in comment.children %}
-                                    <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                    <div class="col-md-10 mg-b-50">
-                                        <div class="background-color-clouds pd-10">
-                                            <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                            <p>{{ commentFirstChild.content }}</p>
-                                            <p><i class="glyphicon glyphicon-alert"></i> {{ commentFirstChild.report }}</a></p>
-                                            <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentFirstChild.id }})">Supprimer ce commentaire</a></p>
+                                    <div id="{{ commentFirstChild.id }}">
+                                        <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                        <div class="col-md-10 mg-b-50">
+                                            <div class="background-color-clouds pd-10">
+                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                <p>{{ commentFirstChild.content }}</p>
+                                                <p><i class="glyphicon glyphicon-alert"></i> {{ commentFirstChild.report }}</a></p>
+                                                <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentFirstChild.id }})">Supprimer ce commentaire</a></p>
+                                            </div>
                                         </div>
                                     </div>
-
                                     <div class="mg-l-50">
                                         {# Third loop #}
                                         {% for commentSecondChild in commentFirstChild.children %}
-                                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                            <div class="col-md-10 mg-b-50">
-                                                <div class="background-color-clouds pd-10">
-                                                    <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                                    <p>{{ commentSecondChild.content }}</p>
-                                                    <p><i class="glyphicon glyphicon-alert"></i> {{ commentSecondChild.report }}</a></p>
-                                                    <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentSecondChild.id }})">Supprimer ce commentaire</a></p>
+                                            <div id="{{ commentSecondChild.id }}">
+                                                <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                                <div class="col-md-10 mg-b-50">
+                                                    <div class="background-color-clouds pd-10">
+                                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                        <p>{{ commentSecondChild.content }}</p>
+                                                        <p><i class="glyphicon glyphicon-alert"></i> {{ commentSecondChild.report }}</a></p>
+                                                        <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentSecondChild.id }})">Supprimer ce commentaire</a></p>
+                                                    </div>
                                                 </div>
                                             </div>
-
                                             <div class="mg-l-50">
                                                 {# Fourth loop #}
                                                 {% for commentThirdChild in commentSecondChild.children %}
-                                                    <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                                    <div class="col-md-10 mg-b-50">
-                                                        <div class="background-color-clouds pd-10">
-                                                            <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                                            <p>{{ commentThirdChild.content }}</p>
-                                                            <p><i class="glyphicon glyphicon-alert"></i> {{ commentThirdChild.report }}</a></p>
-                                                            <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentThirdChild.id }})">Supprimer ce commentaire</a></p>
+                                                    <div id="{{ commentThirdChild.id }}">
+                                                        <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                                        <div class="col-md-10 mg-b-50">
+                                                            <div class="background-color-clouds pd-10">
+                                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                                <p>{{ commentThirdChild.content }}</p>
+                                                                <p><i class="glyphicon glyphicon-alert"></i> {{ commentThirdChild.report }}</a></p>
+                                                                <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentThirdChild.id }})">Supprimer ce commentaire</a></p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 {% endfor %}

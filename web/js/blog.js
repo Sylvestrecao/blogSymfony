@@ -1,6 +1,12 @@
 $(".reportComment").click(function(event){
     event.preventDefault();
 });
+
+function closeDiv(){
+    $(function(){
+        $("#reportSuccess").css("display", "none");
+    })
+}
 function fadeInSuccess(){
     $(function(){
         $("#success").fadeIn(2000);
@@ -14,9 +20,10 @@ function setReport(id){
         type: "POST",
         data: reportData,
         url: path,
-        success: function(){
-            console.log(reportData);
-            $("#reportSuccess").fadeIn(1000);
+        success: function(data){
+            if(data){
+                $("#reportSuccess").fadeIn(1000);
+            }
         },
         error: function(xhr, status, error) {
             console.log(error);
@@ -30,10 +37,11 @@ function deleteComment(id){
         type: "POST",
         data: commentData,
         url: path,
-        success: function(){
-            console.log(commentData);
-            window.location.reload();
-            $("#deleteSuccess").fadeIn(1000);
+        success: function(data){
+            if(data){
+                $("#deleteSuccess").fadeIn(1000);
+            }
+            $("#" + id).remove();
         },
         error: function(xhr, status, error) {
             console.log(error);

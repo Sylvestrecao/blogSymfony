@@ -43,6 +43,9 @@ class PostType extends AbstractType
                         return $er->createQueryBuilder('u')
                             ->where('u.username = :username')
                             ->setParameter('username', $this->user);
+                       /* $er->createQueryBuilder('u')
+                            ->where('u.roles LIKE :roles')
+                            ->setParameter('roles', '%"'.$this->user.'"%');*/
                     },
                     'choice_label' => 'username',
                 ))

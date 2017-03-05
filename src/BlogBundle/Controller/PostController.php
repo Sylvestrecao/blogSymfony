@@ -38,7 +38,7 @@ class PostController extends Controller
         $posts = $this->get('knp_paginator')->paginate(
             $query,
             $request->query->getInt('page', 1),
-            3
+            5
         );
 
         return $this->render('BlogBundle:Default:index.html.twig', array(
@@ -294,6 +294,7 @@ class PostController extends Controller
 
         $em->persist($comment);
         $em->flush();
+
 
         return new Response('success');
     }
