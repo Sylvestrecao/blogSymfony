@@ -1,5 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ https://www.blogdejean.sylvestre-cao.fr/$1 [R=301,L]
     RewriteRule ^(.*)$ web/$1 [QSA,L]
 </IfModule>
