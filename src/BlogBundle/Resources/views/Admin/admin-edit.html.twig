@@ -48,7 +48,7 @@
         {# End first row #}
 
         {# Comments section start 2nd row #}
-        <div class="row">
+        <div class="row mg-t-50">
             {# Nav tabs #}
             <div class="alert alert-dismissible alert-success display-none" id="deleteSuccess">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -72,60 +72,147 @@
                                         <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                         <p>{{ comment.content }}</p>
                                         <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
-                                        <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ comment.id }})">Supprimer ce commentaire</a></p>
+                                        <p><a href="#" class="reportComment color-red" data-toggle="modal" data-target="#deleteCommentModal{{ comment.id }}">Supprimer ce commentaire</a></p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mg-l-50">
-                                {# Second loop #}
-                                {% for commentFirstChild in comment.children %}
-                                    <div id="{{ commentFirstChild.id }}">
-                                        <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                        <div class="col-md-10 mg-b-50">
-                                            <div class="background-color-clouds pd-10">
-                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                                <p>{{ commentFirstChild.content }}</p>
-                                                <p><i class="glyphicon glyphicon-alert"></i> {{ commentFirstChild.report }}</a></p>
-                                                <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentFirstChild.id }})">Supprimer ce commentaire</a></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mg-l-50">
-                                        {# Third loop #}
-                                        {% for commentSecondChild in commentFirstChild.children %}
-                                            <div id="{{ commentSecondChild.id }}">
-                                                <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
-                                                <div class="col-md-10 mg-b-50">
-                                                    <div class="background-color-clouds pd-10">
-                                                        <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                                        <p>{{ commentSecondChild.content }}</p>
-                                                        <p><i class="glyphicon glyphicon-alert"></i> {{ commentSecondChild.report }}</a></p>
-                                                        <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentSecondChild.id }})">Supprimer ce commentaire</a></p>
-                                                    </div>
+                                <div class="mg-l-50">
+                                    {# Second loop #}
+                                    {% for commentFirstChild in comment.children %}
+                                        <div id="{{ commentFirstChild.id }}">
+                                            <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                            <div class="col-md-10 mg-b-50">
+                                                <div class="background-color-clouds pd-10">
+                                                    <p class="mg-0">Commentaire de <span class="text-bold">{{ commentFirstChild.username }}</span> le {{ commentFirstChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                    <p>{{ commentFirstChild.content }}</p>
+                                                    <p><i class="glyphicon glyphicon-alert"></i> {{ commentFirstChild.report }}</a></p>
+                                                    <p><a href="#" class="reportComment color-red" data-toggle="modal" data-target="#deleteCommentModal{{ commentFirstChild.id }}">Supprimer ce commentaire</a></p>
                                                 </div>
                                             </div>
                                             <div class="mg-l-50">
-                                                {# Fourth loop #}
-                                                {% for commentThirdChild in commentSecondChild.children %}
-                                                    <div id="{{ commentThirdChild.id }}">
+                                                {# Third loop #}
+                                                {% for commentSecondChild in commentFirstChild.children %}
+                                                    <div id="{{ commentSecondChild.id }}">
                                                         <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
                                                         <div class="col-md-10 mg-b-50">
                                                             <div class="background-color-clouds pd-10">
-                                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
-                                                                <p>{{ commentThirdChild.content }}</p>
-                                                                <p><i class="glyphicon glyphicon-alert"></i> {{ commentThirdChild.report }}</a></p>
-                                                                <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ commentThirdChild.id }})">Supprimer ce commentaire</a></p>
+                                                                <p class="mg-0">Commentaire de <span class="text-bold">{{ commentSecondChild.username }}</span> le {{ commentSecondChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                                <p>{{ commentSecondChild.content }}</p>
+                                                                <p><i class="glyphicon glyphicon-alert"></i> {{ commentSecondChild.report }}</a></p>
+                                                                <p><a href="#" class="reportComment color-red" data-toggle="modal" data-target="#deleteCommentModal{{ commentSecondChild.id }}">Supprimer ce commentaire</a></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mg-l-50">
+                                                            {# Fourth loop #}
+                                                            {% for commentThirdChild in commentSecondChild.children %}
+                                                                <div id="{{ commentThirdChild.id }}">
+                                                                    <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
+                                                                    <div class="col-md-10 mg-b-50">
+                                                                        <div class="background-color-clouds pd-10">
+                                                                            <p class="mg-0">Commentaire de <span class="text-bold">{{ commentThirdChild.username }}</span> le {{ commentThirdChild.getCreatedAt()|date("d/m/Y H:i") }}</p>
+                                                                            <p>{{ commentThirdChild.content }}</p>
+                                                                            <p><i class="glyphicon glyphicon-alert"></i> {{ commentThirdChild.report }}</a></p>
+                                                                            <p><a href="#" class="reportComment color-red" data-toggle="modal" data-target="#deleteCommentModal{{ commentThirdChild.id }}">Supprimer ce commentaire</a></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal fade" id="deleteCommentModal{{ commentThirdChild.id }}" role="dialog">
+                                                                    <div class="modal-dialog">
+                                                                        <!-- Modal content-->
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                <h4 class="modal-title text-center">Êtes-vous sûr de vouloir supprimer ce commentaire ?</h4>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 text-center">
+                                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 text-center">
+                                                                                        <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentThirdChild.id }})">Valider</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endfor %}
+                                                            {# End Fourth loop #}
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal fade" id="deleteCommentModal{{ commentSecondChild.id }}" role="dialog">
+                                                        <div class="modal-dialog">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    <h4 class="modal-title text-center">Êtes-vous sûr de vouloir supprimer ce commentaire ?
+                                                                        Attention, la suppression d'un commentaire supprime les réponses associées !</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6 text-center">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+                                                                        </div>
+                                                                        <div class="col-md-6 text-center">
+                                                                            <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentSecondChild.id }})">Valider</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 {% endfor %}
-                                                {# End Fourth loop #}
+                                                {# End Third loop #}
                                             </div>
-                                        {% endfor %}
-                                        {# End Third loop #}
+                                        </div>
+                                        <div class="modal fade" id="deleteCommentModal{{ commentFirstChild.id }}" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title text-center">Êtes-vous sûr de vouloir supprimer ce commentaire ?
+                                                            Attention, la suppression d'un commentaire supprime les réponses associées !</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-6 text-center">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+                                                            </div>
+                                                            <div class="col-md-6 text-center">
+                                                                <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentFirstChild.id }})">Valider</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    {# End Second loop #}
+                                </div>
+                            </div>
+                            <div class="modal fade" id="deleteCommentModal{{ comment.id }}" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title text-center">Êtes-vous sûr de vouloir supprimer ce commentaire ?
+                                                Attention, la suppression d'un commentaire supprime les réponses associées !</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-6 text-center">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
+                                                </div>
+                                                <div class="col-md-6 text-center">
+                                                    <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ comment.id }})">Valider</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                {% endfor %}
-                                {# End Second loop #}
+                                </div>
                             </div>
                         {% endif %}
                     {% endfor %}

@@ -33,6 +33,7 @@ function setReport(id){
 function deleteComment(id){
     var path = Routing.generate('admin_comment_delete');
     var commentData = {"Comment_ID": id};
+    
     $.ajax({
         type: "POST",
         data: commentData,
