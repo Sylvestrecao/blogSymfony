@@ -282,8 +282,6 @@ class PostController extends Controller
         if($request->isXmlHttpRequest()){
             $data = $request->request->all();
             $id = $data['Comment_ID'];
-           // $session = $request->getSession();
-           // $session->set('panier', $data);
         }
 
         $em = $this->getDoctrine()->getManager();
