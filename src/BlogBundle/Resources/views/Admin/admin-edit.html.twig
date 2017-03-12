@@ -55,13 +55,13 @@
                 Le commentaire a été supprimé avec succès !
             </div>
             <ul class="nav nav-tabs mg-t-50">
-                <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Voir tous les commentaires ({{ post.comments|length }})</a></li>
-                <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Voir les commentaires les plus signalés ({{ commentReport|length }})</a></li>
+                <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Voir tous les commentaires ( <span class="commentNumber"></span> )</a></li>
+                <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Voir les commentaires les plus signalés ( <span class="reportCommentNumber"></span> )</a></li>
             </ul>
             {# Tabs content #}
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade active in" id="home">
-                    <div class="col-md-12"><h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 1 %}s{% endif %}</h3></div>
+                    <div class="col-md-12"><h3><span class="commentNumber"></span> Commentaire<span class="pluralCommentNumber"></span></h3></div>
                     {# First loop #}
                     {% for comment in post.comments %}
                         {% if comment.parent is null %}
@@ -129,7 +129,7 @@
                                                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
                                                                                     </div>
                                                                                     <div class="col-md-6 text-center">
-                                                                                        <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentThirdChild.id }})">Valider</a>
+                                                                                        <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentThirdChild.id }}, {{ post.id }})">Valider</a>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -155,7 +155,7 @@
                                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
                                                                         </div>
                                                                         <div class="col-md-6 text-center">
-                                                                            <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentSecondChild.id }})">Valider</a>
+                                                                            <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentSecondChild.id }}, {{ post.id }})">Valider</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -181,7 +181,7 @@
                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
                                                             </div>
                                                             <div class="col-md-6 text-center">
-                                                                <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentFirstChild.id }})">Valider</a>
+                                                                <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ commentFirstChild.id }}, {{ post.id }})">Valider</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -207,7 +207,7 @@
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Retour</button>
                                                 </div>
                                                 <div class="col-md-6 text-center">
-                                                    <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ comment.id }})">Valider</a>
+                                                    <a href="#" class="reportComment btn btn-danger" data-dismiss="modal" onclick="deleteComment({{ comment.id }}, {{ post.id }})">Valider</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -219,7 +219,7 @@
                     {# End First loop #}
                 </div>
                 <div class="tab-pane fade" id="profile">
-                    <div class="col-md-12"><h3>{{ commentReport|length }} Commentaire{% if commentReport|length > 1 %}s{% endif %}</h3></div>
+                    <div class="col-md-12"><h3><span class="reportCommentNumber"></span> Commentaire<span class="pluralReportCommentNumber"></span>{% if commentReport|length > 1 %}s{% endif %}</h3></div>
                     {% for comment in commentReport %}
                         <div class="col-md-2"><img src="https://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?d=mm&s=100"></div>
                         <div class="col-md-10 mg-b-50">
@@ -227,7 +227,6 @@
                                 <p class="mg-0">Commentaire de <span class="text-bold">{{ comment.username }}</span> le {{ comment.getCreatedAt()|date("d/m/Y H:i") }}</p>
                                 <p>{{ comment.content }}</p>
                                 <p><i class="glyphicon glyphicon-alert"></i> {{ comment.report }}</a></p>
-                                <p><a href="#" class="reportComment color-red" onclick="deleteComment({{ comment.id }})">Supprimer ce commentaire</a></p>
                             </div>
                         </div>
                     {% endfor %}
@@ -243,7 +242,10 @@
 {% endblock %}
 
 {% block script %}
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        getCommentNumber({{ post.id }})
+        getReportCommentNumber({{ post.id }})
+    </script>
     <script src="{{ asset('js/tinymce.min.js') }}"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
 {% endblock %}

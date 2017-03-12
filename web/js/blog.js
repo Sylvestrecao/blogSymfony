@@ -30,7 +30,7 @@ function setReport(id){
         }
     });
 }
-function deleteComment(id){
+function deleteComment(id, postId){
     var path = Routing.generate('admin_comment_delete');
     var commentData = {"Comment_ID": id};
     
@@ -41,8 +41,54 @@ function deleteComment(id){
         success: function(data){
             if(data){
                 $("#deleteSuccess").fadeIn(1000);
+                $("#" + id).remove();
+                getCommentNumber(postId);
             }
-            $("#" + id).remove();
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+
+function getCommentNumber(postId){
+    var path = Routing.generate('admin_get_comments_post');
+    var commentData = {"Post_ID": postId};
+
+    $.ajax({
+        type: "GET",
+        data: commentData,
+        url: path,
+        success: function(data){
+            $(".commentNumber").text(data);
+            if(data > 1){
+                $(".pluralCommentNumber").text('s');
+            }
+            else{
+                $(".pluralCommentNumber").removeClass('pluralCommentNumber');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+function getReportCommentNumber(postId){
+    var path = Routing.generate('admin_get_report_comments_post');
+    var commentData = {"Post_ID": postId};
+
+    $.ajax({
+        type: "GET",
+        data: commentData,
+        url: path,
+        success: function(data){
+            $(".reportCommentNumber").text(data);
+            if(data > 1){
+                $(".pluralReportCommentNumber").text('s');
+            }
+            else{
+                $(".pluralReportCommentNumber").removeClass('pluralReportCommentNumber');
+            }
         },
         error: function(xhr, status, error) {
             console.log(error);

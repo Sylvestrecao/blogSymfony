@@ -21,4 +21,27 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             ->getResult()
             ;
     }
+
+    public function getCommentReportNumber($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c)')
+            ->where('c.post = :id')
+            ->setParameter('id', $id)
+            ->andWhere('c.report > 0')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
+    public function getCommentsPost($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c)')
+            ->where('c.post = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
 }

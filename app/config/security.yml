@@ -5,7 +5,6 @@ security:
         BlogBundle\Entity\User: bcrypt
 
     role_hierarchy:
-        ROLE_AUTEUR:      ROLE_USER
         ROLE_ADMIN:       ROLE_AUTEUR
         ROLE_SUPER_ADMIN: ROLE_ADMIN
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
@@ -34,7 +33,6 @@ security:
 
 
     access_control:
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: localhost$ }
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https, host: blogdejean.sylvestre-cao\.fr$ }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

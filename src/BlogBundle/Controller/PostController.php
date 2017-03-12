@@ -272,6 +272,41 @@ class PostController extends Controller
     }
 
     /**
+     * Get a comment entity.
+     *
+     * @Route("/admin/get-comments-post", options={"expose"=true}, name="admin_get_comments_post")
+     * @Method("GET")
+     */
+    public function getCommentsPostAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            $id = $request->query->get('Post_ID');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $comments = $em->getRepository('BlogBundle:Comment')->getCommentsPost($id);
+
+        return new Response($comments);
+    }
+    /**
+     * Get a comment entity.
+     *
+     * @Route("/admin/get-report-comments-post", options={"expose"=true}, name="admin_get_report_comments_post")
+     * @Method("GET")
+     */
+    public function getReportCommentsPostAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()){
+            $id = $request->query->get('Post_ID');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $commentReportNumber = $em->getRepository('BlogBundle:Comment')->getCommentReportNumber($id);
+
+        return new Response($commentReportNumber);
+    }
+
+    /**
      * Set reportComment bool
      *
      * @Route("/setreport", options={"expose"=true}, name="set_report")

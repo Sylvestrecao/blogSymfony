@@ -44,7 +44,7 @@
                         <button type="button" class="close" onclick="closeDiv()">&times;</button>
                         <span>Le commentaire a été signalé</span>
                     </div>
-                    <h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 0 %}s{% endif %}</h3>
+                    <h3>{{ post.comments|length }} Commentaire{% if post.comments|length > 1 %}s{% endif %}</h3>
                     <div class="row">
                         {# First loop #}
                         {% for comment in post.comments %}
