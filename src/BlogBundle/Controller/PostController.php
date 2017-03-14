@@ -12,7 +12,6 @@ use BlogBundle\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +37,7 @@ class PostController extends Controller
         $posts = $this->get('knp_paginator')->paginate(
             $query,
             $request->query->getInt('page', 1),
-            5
+            3
         );
 
         return $this->render('BlogBundle:Default:index.html.twig', array(
