@@ -8,7 +8,7 @@
             {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
             {{ form_errors(form) }}
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group" id="titleGroup">
                     {{ form_label(form.name, "Titre") }}
                     {{ form_errors(form.name) }}
                     {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
@@ -49,4 +49,7 @@
 {% block script %}
     <script src="{{ asset('js/tinymce.min.js') }}"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
+    <script type="text/javascript">
+        inputTitleValidation()
+    </script>
 {% endblock %}

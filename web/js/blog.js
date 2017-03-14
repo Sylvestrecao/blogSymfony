@@ -13,6 +13,23 @@ function fadeInSuccess(){
     })
 }
 
+function inputTitleValidation(){
+    var input =  $("#blogbundle_post_name");
+    var formGroup = $("#titleGroup");
+    input.keyup(function(){
+        var inputLength = input.val().length;
+        if(inputLength < 5){
+            formGroup.addClass("has-error")
+            formGroup.removeClass("has-success")
+            return false;
+        }
+        else{
+            formGroup.addClass("has-success")
+            formGroup.removeClass("has-error")
+        }
+    });
+}
+
 function setReport(id){
     var path = Routing.generate('set_report');
     var reportData = {"Comment_ID": id};

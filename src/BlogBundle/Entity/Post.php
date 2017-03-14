@@ -40,6 +40,7 @@ class Post
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
      * @Assert\Length(min=5)
      */
     private $name;
