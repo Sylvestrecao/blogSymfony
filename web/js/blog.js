@@ -16,7 +16,7 @@ function fadeInSuccess(){
 function inputTitleValidation(){
     var input =  $("#blogbundle_post_name");
     var formGroup = $("#titleGroup");
-    input.keyup(function(){
+    input.on('keyup keypress blur change', function() {
         var inputLength = input.val().length;
         if(inputLength < 5){
             formGroup.addClass("has-error")
