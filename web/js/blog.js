@@ -21,7 +21,6 @@ function inputTitleValidation(){
         if(inputLength < 5){
             formGroup.addClass("has-error")
             formGroup.removeClass("has-success")
-            return false;
         }
         else{
             formGroup.addClass("has-success")
