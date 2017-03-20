@@ -57,7 +57,7 @@ function deleteComment(id, postId){
         success: function(data){
             if(data){
                 $("#deleteSuccess").fadeIn(1000);
-                $("#" + id).remove();
+                $("." + id).remove();
                 getCommentNumber(postId);
                 getReportCommentNumber(postId);
             }
