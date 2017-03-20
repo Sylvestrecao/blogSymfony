@@ -82,7 +82,7 @@ function getCommentNumber(postId){
                 $(".pluralCommentNumber").text('s');
             }
             else{
-                $(".pluralCommentNumber").removeClass('pluralCommentNumber');
+                $(".pluralCommentNumber").remove();
             }
         },
         error: function(xhr, status, error) {
@@ -104,7 +104,7 @@ function getReportCommentNumber(postId){
                 $(".pluralReportCommentNumber").text('s');
             }
             else{
-                $(".pluralReportCommentNumber").removeClass('pluralReportCommentNumber');
+                $(".pluralReportCommentNumber").remove();
             }
         },
         error: function(xhr, status, error) {
