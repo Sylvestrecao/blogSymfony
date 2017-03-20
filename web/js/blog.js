@@ -59,6 +59,7 @@ function deleteComment(id, postId){
                 $("#deleteSuccess").fadeIn(1000);
                 $("#" + id).remove();
                 getCommentNumber(postId);
+                getReportCommentNumber(postId);
             }
         },
         error: function(xhr, status, error) {
