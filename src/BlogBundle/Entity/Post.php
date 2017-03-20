@@ -72,7 +72,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"persist", "remove"})
      */
     private $comments;
 
