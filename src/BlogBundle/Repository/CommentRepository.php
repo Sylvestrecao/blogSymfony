@@ -44,4 +44,15 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             ->getSingleScalarResult()
             ;
     }
+
+    public function getAllCommentsPost($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.post = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    
 }

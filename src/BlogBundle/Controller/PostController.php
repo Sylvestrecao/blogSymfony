@@ -41,11 +41,23 @@ class PostController extends Controller
         );
 
         return $this->render('BlogBundle:Default:index.html.twig', array(
-            'posts' => $posts,
+            'posts' => $posts
         ));
 
     }
 
+    public function recursiveComment($comment){
+        echo "<div style='margin-left:50px;'>";
+            if(!empty($comment->getChildren())){
+                foreach ($comment->getChildren() as $child){
+                    echo $child->getContent();
+                    echo "<p><a href='#'>Répondre</a></p>";
+
+                    $this->recursiveComment($child);
+                }
+            }
+        echo "</div>";
+    }
     /**
      * Finds and displays a post entity.
      *
@@ -57,6 +69,14 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $post = $em->getRepository('BlogBundle:Post')->getOnePostWithCategoryAndUserAndComment($id);
+        $comments = $em->getRepository('BlogBundle:Comment')->getAllCommentsPost($id);
+
+        foreach ($comments as $comment){
+            if($comment->getParent() == null){
+                echo $comment->getContent();
+                $this->recursiveComment($comment);
+            }
+        }
 
         return $this->render('BlogBundle:Default:show.html.twig', array(
             'post' => $post,

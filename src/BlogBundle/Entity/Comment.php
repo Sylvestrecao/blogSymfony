@@ -10,7 +10,7 @@ use DateTime;
  *
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="BlogBundle\Repository\CommentRepository")
- * @ORM\HasLifecycleCallbacks()
+ *
  */
 class Comment
 {
