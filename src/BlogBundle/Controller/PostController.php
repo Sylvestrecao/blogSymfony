@@ -27,8 +27,8 @@ class PostController extends Controller
     /**
      * Lists all post entities.
      *
-     * @Route("/", name="post_index")
-     * @Method("GET")
+     * @Route("/", options={"expose"=true}, name="post_index")
+     * @Method({"GET", "POST"})
      */
     public function indexAction(Request $request)
     {
@@ -46,38 +46,24 @@ class PostController extends Controller
 
     }
 
-    public function recursiveComment($comment){
-        echo "<div style='margin-left:50px;'>";
-            if(!empty($comment->getChildren())){
-                foreach ($comment->getChildren() as $child){
-                    echo $child->getContent();
-                    echo "<p><a href='#'>Répondre</a></p>";
+    public function recursiveCommentAction($comment, $depth){
 
-                    $this->recursiveComment($child);
-                }
-            }
-        echo "</div>";
+        return $this->render('BlogBundle:Default:recursive-comment.html.twig', array(
+            'comment' => $comment,
+            'depth' => $depth
+        ));
     }
     /**
      * Finds and displays a post entity.
-     *
+     *  
      * @Route("/{id}", name="post_show", requirements={"id": "\d+"})
      * @Method("GET")
      */
-    public function showAction($id)
+    public function showAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
         $post = $em->getRepository('BlogBundle:Post')->getOnePostWithCategoryAndUserAndComment($id);
-        $comments = $em->getRepository('BlogBundle:Comment')->getAllCommentsPost($id);
-
-        foreach ($comments as $comment){
-            if($comment->getParent() == null){
-                echo $comment->getContent();
-                $this->recursiveComment($comment);
-            }
-        }
-
+        
         return $this->render('BlogBundle:Default:show.html.twig', array(
             'post' => $post,
         ));

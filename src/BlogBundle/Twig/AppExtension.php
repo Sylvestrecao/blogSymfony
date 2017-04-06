@@ -1,4 +1,4 @@
-<?php // src/AppBundle/Twig/AppExtension.php
+<?php // src/BlogBundle/Twig/AppExtension.php
 namespace BlogBundle\Twig;
 
 class AppExtension extends \Twig_Extension
